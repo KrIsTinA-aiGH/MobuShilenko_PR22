@@ -14,7 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
 
@@ -38,6 +41,28 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StartScreen() {
 
+    var screen by remember { mutableStateOf("start") }
+
+    when (screen) {
+        "start" -> MenuScreen(
+            onStartClick = { screen = "game" },
+            onRecordsClick = { screen = "records" },
+            onSettingsClick = { screen = "settings" }
+        )
+
+        "game" -> GameScreen()
+
+        "records" -> Text(text = "Здесь будут рекорды")
+
+        "settings" -> Text(text = "Здесь будут настройки")
+    }
+}
+@Composable
+fun MenuScreen(
+    onStartClick: () -> Unit,
+    onRecordsClick: () -> Unit,
+    onSettingsClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,40 +73,25 @@ fun StartScreen() {
         verticalArrangement = Arrangement.Center
     ) {
 
-        Text(
-            text = "Игра Memory",
-            fontSize = 32.sp
-        )
+        Text( text = "Memory Game" )
+
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Button(
-            onClick = {
-
-            }
-        ) {
+        Button(onClick = onStartClick) {
             Text(text = "Начать игру")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            onClick = {
-
-            }
-        ) {
+        Button(onClick = onRecordsClick) {
             Text(text = "Рекорды")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            onClick = {
-
-            }
-        ) {
+        Button(onClick = onSettingsClick) {
             Text(text = "Настройки")
         }
-
     }
 }
